@@ -27,3 +27,13 @@ def read_large_file(file_name):
 
 for line_number, line in read_large_file(file_name):
     print(f"Line {line_number}: {line}")
+
+
+#for line in open("example.txt"):
+    #print(line, end='')
+
+
+with open(file_name) as f:
+    content = f.read()
+    lines = content.splitlines()
+print(lines[:100])

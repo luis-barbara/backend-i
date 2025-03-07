@@ -1,0 +1,21 @@
+[project]
+name = "s2"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "luis-barbara",email = "luisbarbara@live.com.pt"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+]
+[project.scripts]
+comprehensions="s2.comprehensions:main"
+
+[tool.poetry]
+packages = [{include = "s2", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
