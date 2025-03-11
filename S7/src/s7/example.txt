@@ -1,0 +1,10 @@
+Hello, Context Managers!
+Appending with context manager using @contextmanager.
+Appending with context manager using @contextmanager.
+Appending with context manager using @contextmanager.
+Appending with context manager using @contextmanager.
+Appending with context manager using @contextmanager.
+Appending with context manager using @contextmanager.
+Appending with context manager using @contextmanager.
+Appending with context manager using @contextmanager.
+Appending with context manager using @contextmanager.
