@@ -1,27 +1,21 @@
-from typer import Typer
 import logging
+import typer
 
-
+# Logging configuration
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-console_handler = logging.StreamHandler()
-logger.addHandler(console_handler)
 
-
-app = Typer()
-
-class InvalidNumberError(Exception):
-    pass
+app = typer.Typer()
 
 @app.command()
 def square(number: int):
-    if number > 10:
-        logger.error(f'number {number} must be <= 10')
-        raise InvalidNumberError(f"number {number} must be <= 10")
-    else:
-        print(f'{number**2}')
-    
+    """The function calculates the square of a number and displays the result."""
+    result = number ** 2
+    logger.info(f"Calculating the square of {number}: {result}")
+    print(result)
 
 if __name__ == "__main__":
     app()
+
+
 

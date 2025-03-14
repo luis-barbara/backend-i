@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./S6/src/s6"
+        "./S6/src/s6",
+        "./S9/src/s9"
     ]
 }
