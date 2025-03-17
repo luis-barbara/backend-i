@@ -31,8 +31,14 @@ async def welcome(message):
     if message.content.startswith('hi'):
         await message.channel.send('Welcome, how can I help you?')
 
-    if message.content.startswith('ola'):
-        await message.channel.send('Ola, como estas hoje?')
+    # Adicionando um comando de boas-vindas para o bot
+    if message.content.startswith('$welcome'):
+        # Extrai o nome de usuário após o comando
+        username = message.content[len('$welcome '):]
+        if username:
+            await message.channel.send(f"Welcome to the server, {username}!")
+        else:
+            await message.channel.send("Welcome! Please provide a username.")
         
 
 client.run(os.getenv('DOCKER_TOKEN', None))
