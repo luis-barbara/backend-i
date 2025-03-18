@@ -1,0 +1,5 @@
+.venv/
+compose.yaml
+Dockerfile
+makefile
+*.png
