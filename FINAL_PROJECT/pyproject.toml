@@ -1,5 +1,5 @@
 [project]
-name = "s12"
+name = "FINAL_PROJECT"
 version = "0.1.0"
 description = ""
 authors = [
@@ -11,13 +11,11 @@ dependencies = [
     "fastapi (>=0.115.11,<0.116.0)",
     "uvicorn (>=0.34.0,<0.35.0)",
     "sqlmodel (>=0.0.24,<0.0.25)",
-    "psycopg2-binary (>=2.9.10,<3.0.0)",
-    "httpx (>=0.28.1,<0.29.0)",
-    "python-multipart (>=0.0.20,<0.0.21)"
+    "psycopg2-binary (>=2.9.10,<3.0.0)"
 ]
 
 [tool.poetry]
-packages = [{include = "s12", from = "src"}]
+packages = [{include = "final_project", from = "src"}]
 
 
 [tool.poetry.group.dev.dependencies]
@@ -26,3 +24,4 @@ pytest = "^8.3.5"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+

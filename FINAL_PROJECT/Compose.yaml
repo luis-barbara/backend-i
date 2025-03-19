@@ -1,0 +1,27 @@
+services:
+
+  app:
+    build: .
+    command: final_project:app --host 0.0.0.0 --reload
+    ports:
+      - 8000:8000
+    environment:
+
+
+
+  db:
+    image: postgres:17-alpine
+    ports:
+      - 5432:5432
+    environment:
+
+
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+
+  
+
+
