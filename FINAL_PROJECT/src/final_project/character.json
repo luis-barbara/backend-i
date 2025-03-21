@@ -1,23 +1,28 @@
-{
-    "genero": "homem",
-    "idade": 30,
-    "pele": "clara",
-    "cor_olhos": "castanhos",
-    "cor_cabelo": "castanho",
-    "estilo_cabelo": "curto e bem penteado",
-    "roupa": "camisa azul claro e jeans escuros",
-    "acessorios": ["relógio de pulso", "óculos escuros"],
-    "expressao": "confiante",
-    "pose": "de frente, postura ereta",
-    "iluminacao": "suave e difusa",
-    "detalhes_adicionais": "sem fundo, ultra-realista",
-    "detalhes_imagem": {
-      "tipo_imagem": "fotorrealista",
-      "estilo": "realista",
-      "textura": "lisa e suave",
-      "cores_predominantes": "neutras",
-      "contraste": "moderado",
-      "sombreamento": "suave"
+
+  {
+    "personagem": {
+      "genero": "homem",
+      "idade": 30,
+      "pele": "clara",
+      "etnia": "caucasiano",  // Novo campo para etnia
+      "cor_olhos": "castanhos",
+      "cor_cabelo": "castanho",
+      "estilo_cabelo": "curto e bem penteado",
+      "roupa": "camisa azul claro e jeans escuros",
+      "estilo_roupa": "casual",  // Novo campo para estilo de roupa
+      "acessorios": ["relógio de pulso", "óculos escuros"],
+      "expressao": "confiante",
+      "pose": "de frente, postura ereta",
+      "iluminacao": "suave e difusa",
+      "detalhes_adicionais": "sem fundo, ultra-realista",
+      
+      "detalhes_imagem": {
+        "tipo_imagem": "fotorrealista",
+        "estilo": "realista",
+        "textura": "lisa e suave",
+        "cores_predominantes": "neutras",
+        "contraste": "moderado",
+        "sombreamento": "suave"  // Novo campo para sombreamento
+      }
     }
   }
-  

@@ -1,2 +1,0 @@
-- poetry add django
-- poetry run django-admin
