@@ -5,51 +5,50 @@ from characters.models import Character
 
 
 class CharacterAdmin(admin.ModelAdmin):
-
+    # Fields to be displayed in the admin list view
     list_display = (
-        'gender', 'age', 'skin_color', 'ethnicity', 'eye_color', 
-        'hair_color', 'hair_style', 'clothes', 'clothing_style', 
-        'expression', 'pose', 'additional_details', 'image_type', 'style'
+        "name", "gender", "age", "skin", "ethnicity", "eye_color", 
+        "hair_color", "hair_style", "clothing_style", "expression", 
+        "pose", "image_type", "style"
     )
-    
+
+    # Fields that can be edited directly in the list view
     list_editable = (
-        'age', 'skin_color', 'ethnicity', 'eye_color', 'hair_color', 
-        'hair_style', 'clothes', 'clothing_style', 'expression', 'pose'
+        "gender", "age", "skin", "ethnicity", "eye_color", "hair_color", 
+        "hair_style", "clothing_style", "expression", "pose"
     )
-    
-    # Sorting the list of characters (ordering by age)
-    ordering = ('age',)  
-    
-    # Filters to be used in the sidebar (quick filters)
-    list_filter = ('gender', 'ethnicity', 'eye_color', 'hair_color')
-    
-    # Fields to be included in the search bar
-    search_fields = ('gender', 'age', 'ethnicity', 'eye_color', 'hair_color')
-    
-    # Layout for each field in the admin interface (sectioned display)
+
+    # Default ordering of the objects
+    ordering = ("age", "name")
+
+    # Sidebar filters
+    list_filter = ("gender", "ethnicity", "eye_color", "hair_color", "clothing_style", "image_type")
+
+    # Searchable fields in the admin
+    search_fields = ("name", "gender", "ethnicity", "eye_color", "hair_color")
+
+    # Field grouping for better visualization in the admin detail page
     fieldsets = (
-        ('Personal Information', {
-            'fields': ('gender', 'age', 'skin_color', 'ethnicity')
+        ("Basic Information", {
+            "fields": ("name", "gender", "age", "skin", "ethnicity")
         }),
-        ('Appearance', {
-            'fields': ('eye_color', 'hair_color', 'hair_style', 'clothes', 'clothing_style')
+        ("Appearance", {
+            "fields": ("eye_color", "hair_color", "hair_style", "clothing_style")
         }),
-        ('Expression and Pose', {
-            'fields': ('expression', 'pose')
+        ("Expression and Pose", {
+            "fields": ("expression", "pose")
         }),
-        ('Image Details', {
-            'fields': ('image_type', 'style', 'texture', 'dominant_colors', 'contrast', 'shading')
+        ("Image Details", {
+            "fields": ("image_type", "style", "texture", "dominant_colors", "contrast", "shading")
         }),
-        ('Additional Details', {
-            'fields': ('additional_details',)
-        })
+        ("Additional Information", {
+            "fields": ("additional_details",)
+        }),
     )
-    
-    # Filter horizontal for ManyToMany relationships (ensure accessories is ManyToManyField in your model)
-    filter_horizontal = ('accessories',)  
-    
-    # `sortable_by` is not needed unless you want the ability to sort by those fields in the admin interface
-    # sortable_by = ('age', 'ethnicity', 'eye_color')  
+
+    # Sorting options in the admin list view
+    sortable_by = ("age", "ethnicity", "eye_color")
+
 
 
 admin.site.register(Character, CharacterAdmin)

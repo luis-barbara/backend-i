@@ -1,135 +1,162 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
 
 # Create your models here.
 
 
+# Defining choices 
+GENDER_CHOICES = [
+    ("M", "Male"),
+    ("F", "Female"),
+    ("O", "Other"),
+]
+
+ETHNICITY_CHOICES = [
+    ("CA", "Caucasian"),
+    ("AA", "African American"),
+    ("HI", "Hispanic"),
+    ("AS", "Asian"),
+    ("OT", "Other"),
+]
+
+EYE_COLOR_CHOICES = [
+    ("BR", "Brown"),
+    ("BL", "Blue"),
+    ("GR", "Green"),
+    ("HA", "Hazel"),
+    ("OT", "Other"),
+]
+
+HAIR_COLOR_CHOICES = [
+    ("BK", "Black"),
+    ("BR", "Brown"),
+    ("BL", "Blonde"),
+    ("RD", "Red"),
+    ("OT", "Other"),
+]
+
+HAIR_STYLE_CHOICES = [
+    ("SH", "Short"),
+    ("MD", "Medium"),
+    ("LG", "Long"),
+    ("BD", "Bald"),
+    ("OT", "Other"),
+]
+
+CLOTHING_STYLE_CHOICES = [
+    ("CA", "Casual"),
+    ("FO", "Formal"),
+    ("SP", "Sporty"),
+    ("OT", "Other"),
+]
+
+ACCESSORIES_CHOICES = [
+    ("WW", "Wristwatch"),
+    ("SG", "Sunglasses"),
+    ("HT", "Hat"),
+    ("EA", "Earrings"),
+    ("BR", "Bracelet"),
+    ("OT", "Other"),
+]
+
+LIGHTING_CHOICES = [
+    ("SD", "Soft and Diffuse"),
+    ("HR", "Harsh"),
+    ("DR", "Dramatic"),
+    ("NT", "Natural"),
+    ("OT", "Other"),
+]
+
+IMAGE_TYPE_CHOICES = [
+    ("PR", "Photorealistic"),
+    ("CT", "Cartoon"),
+    ("SK", "Sketch"),
+    ("OT", "Other"),
+]
+
+STYLE_CHOICES = [
+    ("RL", "Realistic"),
+    ("CT", "Cartoonish"),
+    ("AB", "Abstract"),
+    ("OT", "Other"),
+]
+
+TEXTURE_CHOICES = [
+    ("SM", "Smooth"),
+    ("RF", "Rough"),
+    ("GR", "Grainy"),
+    ("OT", "Other"),
+]
+
+CONTRAST_CHOICES = [
+    ("HI", "High"),
+    ("MD", "Moderate"),
+    ("LO", "Low"),
+]
+
+SHADING_CHOICES = [
+    ("SF", "Soft"),
+    ("HR", "Harsh"),
+    ("NO", "None"),
+]
+
+# Character Model
 class Character(models.Model):
-    # Choices for limited field input
-    GENDER_CHOICES = [
-        ('male', 'Male'),
-        ('female', 'Female'),
-        ('other', 'Other'),
-    ]
-    
-    ETHNICITY_CHOICES = [
-        ('caucasian', 'Caucasian'),
-        ('african_american', 'African American'),
-        ('hispanic', 'Hispanic'),
-        ('asian', 'Asian'),
-        ('other', 'Other'),
-    ]
-    
-    EYE_COLOR_CHOICES = [
-        ('brown', 'Brown'),
-        ('blue', 'Blue'),
-        ('green', 'Green'),
-        ('hazel', 'Hazel'),
-        ('other', 'Other'),
-    ]
-    
-    HAIR_COLOR_CHOICES = [
-        ('black', 'Black'),
-        ('brown', 'Brown'),
-        ('blonde', 'Blonde'),
-        ('red', 'Red'),
-        ('other', 'Other'),
-    ]
-    
-    HAIR_STYLE_CHOICES = [
-        ('short', 'Short'),
-        ('medium', 'Medium'),
-        ('long', 'Long'),
-        ('bald', 'Bald'),
-        ('other', 'Other'),
-    ]
-    
-    CLOTHING_STYLE_CHOICES = [
-        ('casual', 'Casual'),
-        ('formal', 'Formal'),
-        ('sporty', 'Sporty'),
-        ('other', 'Other'),
-    ]
-    
-    ACCESSORIES_CHOICES = [
-        ('wristwatch', 'Wristwatch'),
-        ('sunglasses', 'Sunglasses'),
-        ('hat', 'Hat'),
-        ('earrings', 'Earrings'),
-        ('bracelet', 'Bracelet'),
-        ('other', 'Other'),
-    ]
-    
-    LIGHTING_CHOICES = [
-        ('soft_diffuse', 'Soft and Diffuse'),
-        ('harsh', 'Harsh'),
-        ('dramatic', 'Dramatic'),
-        ('natural', 'Natural'),
-        ('other', 'Other'),
-    ]
-    
-    IMAGE_TYPE_CHOICES = [
-        ('photorealistic', 'Photorealistic'),
-        ('cartoon', 'Cartoon'),
-        ('sketch', 'Sketch'),
-        ('other', 'Other'),
-    ]
-    
-    STYLE_CHOICES = [
-        ('realistic', 'Realistic'),
-        ('cartoonish', 'Cartoonish'),
-        ('abstract', 'Abstract'),
-        ('other', 'Other'),
-    ]
-    
-    TEXTURE_CHOICES = [
-        ('smooth', 'Smooth'),
-        ('rough', 'Rough'),
-        ('grainy', 'Grainy'),
-        ('other', 'Other'),
-    ]
-    
-    CONTRAST_CHOICES = [
-        ('high', 'High'),
-        ('moderate', 'Moderate'),
-        ('low', 'Low'),
-    ]
-    
-    SHADING_CHOICES = [
-        ('soft', 'Soft'),
-        ('harsh', 'Harsh'),
-        ('none', 'None'),
-    ]
-    
-    # Fields from Character Model
-    id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=255)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-    age = models.IntegerField(null=True, blank=True)  
-    skin = models.CharField(max_length=50)
-    ethnicity = models.CharField(max_length=50, choices=ETHNICITY_CHOICES)
-    eye_color = models.CharField(max_length=50, choices=EYE_COLOR_CHOICES)
-    hair_color = models.CharField(max_length=50, choices=HAIR_COLOR_CHOICES)
-    hair_style = models.CharField(max_length=50, choices=HAIR_STYLE_CHOICES)
-    clothing = models.CharField(max_length=255)
-    clothing_style = models.CharField(max_length=50, choices=CLOTHING_STYLE_CHOICES)
-    accessories = models.JSONField(default=list)  
-    expression = models.CharField(max_length=255, null=True, blank=True)  
-    pose = models.CharField(max_length=255, null=True, blank=True) 
-    lighting = models.CharField(max_length=50, choices=LIGHTING_CHOICES)
-    additional_details = models.TextField(null=True, blank=True)  
+    id = models.BigAutoField(primary_key=True)  
 
-    # Imag Details
-    image_type = models.CharField(max_length=50, choices=IMAGE_TYPE_CHOICES)
-    style = models.CharField(max_length=50, choices=STYLE_CHOICES)
-    texture = models.CharField(max_length=50, choices=TEXTURE_CHOICES)
-    dominant_colors = models.CharField(max_length=50, null=True, blank=True)  
-    contrast = models.CharField(max_length=50, choices=CONTRAST_CHOICES)
-    shading = models.CharField(max_length=50, choices=SHADING_CHOICES)
+    # Basic Information
+    name = models.CharField(max_length=255)  
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES) 
+    age = models.PositiveIntegerField()  
+    skin = models.CharField(max_length=50)  
+    ethnicity = models.CharField(max_length=2, choices=ETHNICITY_CHOICES)  
 
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='characters', null=True)
+    # Physical Attributes
+    eye_color = models.CharField(max_length=2, choices=EYE_COLOR_CHOICES)
+    hair_color = models.CharField(max_length=2, choices=HAIR_COLOR_CHOICES)
+    hair_style = models.CharField(max_length=2, choices=HAIR_STYLE_CHOICES)
+
+    # Clothing and Accessories
+    clothing = models.CharField(max_length=255)  
+    clothing_style = models.CharField(max_length=2, choices=CLOTHING_STYLE_CHOICES)
+    accessories = models.JSONField()  
+
+    # Expression and Pose
+    expression = models.CharField(max_length=255)  
+    pose = models.CharField(max_length=255)  
+
+    # Image Details
+    lighting = models.CharField(max_length=2, choices=LIGHTING_CHOICES)
+    additional_details = models.TextField()  
+
+    # Image Style Settings
+    image_type = models.CharField(max_length=2, choices=IMAGE_TYPE_CHOICES)
+    style = models.CharField(max_length=2, choices=STYLE_CHOICES)
+    texture = models.CharField(max_length=2, choices=TEXTURE_CHOICES)
+    dominant_colors = models.CharField(max_length=50)  
+    contrast = models.CharField(max_length=2, choices=CONTRAST_CHOICES)
+    shading = models.CharField(max_length=2, choices=SHADING_CHOICES)
+
+    
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="characters", null=True)
+    image_url = models.URLField(max_length=1024, blank=True, null=True)  
 
     class Meta:
-        db_table = "characters"  
-        verbose_name = "Character"  
-        verbose_name_plural = "Characters"  
+        db_table = "characters" 
+        verbose_name = "Character"
+        verbose_name_plural = "Characters"
+
+    def __str__(self):
+        return self.name
+
+
+
+
+
+
+
+
+
+
 

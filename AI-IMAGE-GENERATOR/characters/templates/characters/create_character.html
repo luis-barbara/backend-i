@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Create Your Character
+{% endblock %}
+
+{% block menu %}
+    <h1>Create Your Character</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Character</button>
+    </form>
+
+    {% if character %}
+        <h2>Character Created Successfully!</h2>
+        <p>Name: {{ character.name }}</p>
+        <p>Gender: {{ character.gender }}</p>
+        <p>Age: {{ character.age }}</p>
+        <p>Skin Tone: {{ character.skin }}</p>
+        <p>Ethnicity: {{ character.ethnicity }}</p>
+        <p>Eye Color: {{ character.eye_color }}</p>
+        <p>Hair Color: {{ character.hair_color }}</p>
+        <p>Hair Style: {{ character.hair_style }}</p>
+        <p>Clothing Style: {{ character.clothing_style }}</p>
+        <p>Accessories: 
+            {% if character.accessories %}
+                {{ character.accessories|join:", " }}
+            {% else %}
+                None
+            {% endif %}
+        </p>
+        <p>Expression: {{ character.expression }}</p>
+        <p>Pose: {{ character.pose }}</p>
+        <p>Lighting: {{ character.lighting }}</p>
+        <p>Additional Details: {{ character.additional_details }}</p>
+        <p>Image Type: {{ character.image_type }}</p>
+        <p>Style: {{ character.style }}</p>
+        <p>Texture: {{ character.texture }}</p>
+        <p>Dominant Colors: {{ character.dominant_colors }}</p>
+        <p>Contrast: {{ character.contrast }}</p>
+        <p>Shading: {{ character.shading }}</p>
+
+        <img src="{{ character.image.url }}" alt="Character Image" />
+    {% endif %}
+{% endblock %}
