@@ -54,7 +54,7 @@ def create_character(request):
             The predominant colors are {details.get('dominant_colors', 'neutral')} and the image should have {details.get('contrast', 'moderate')} contrast.
             """
 
-            # Call the function to generate the image using the DALL·E API or another service
+            # Call the function to generate the image using the DALL·E API 
             image_url = generate_image(prompt)  
 
             # Save the image URL to the character model

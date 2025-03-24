@@ -77,8 +77,12 @@ WSGI_APPLICATION = "djproject.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "dj_db",
+        "USER": "postgres",
+        "PASSWORD": "qwerty",
+        "HOST": "database",
+        "PORT": "5432"
     }
 }
 
@@ -125,3 +129,5 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "/tasks"
+
+LOGOUT_REDIRECT_URL = "/"
