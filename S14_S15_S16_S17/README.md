@@ -12,3 +12,6 @@
 - poetry add --dev pytest_django
 - https://pytest-django.readthedocs.io/en/latest/
 - https://pytest-django.readthedocs.io/en/latest/configuring_django.html#pyproject-toml-settings
+
+## gitignore
+- https://www.toptal.com/developers/gitignore

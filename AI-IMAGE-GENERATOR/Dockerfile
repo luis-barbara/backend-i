@@ -1,14 +1,16 @@
 FROM python:3.12-slim
 
-WORKDIR /workspace
-
 RUN pip install poetry
+
+WORKDIR /app
+
+COPY poetry.lock pyproject.toml /app/
 
 COPY . .
 
-RUN poetry install -nq
-
-ENTRYPOINT [ "poetry", "run", "uvicorn" ]
-
-CMD [ "final_project.main:app", "--host", "0.0.0.0" ]
+RUN poetry install -n 
+EXPOSE 8000
+RUN poetry run manage.py collectstatic --noinput
+ENTRYPOINT [ "poetry", "run" ]
+CMD ["uvicorn", "dali.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
 

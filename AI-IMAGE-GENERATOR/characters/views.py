@@ -43,15 +43,15 @@ def create_character(request):
 
             # Generate the prompt based on the character's attributes
             prompt = f"""
-            Create a {details['image_type']} image of a {character.gender} aged {character.age} years, with {character.skin} skin,
+            Create a {character.image_type} image of a {character.gender} aged {character.age} years, with {character.skin} skin,
             {character.eye_color} penetrating eyes, and {character.hair_color} {character.hair_style} hair. 
-            They are wearing {character.clothing}, with accessories like {', '.join(character.accessories)}. 
+            They are wearing {character.clothing}, with accessories like {character.accessories}. 
             They have a {character.expression} expression and are {character.pose}. 
-            The lighting is {character.lighting}, with shading {details['shading']} to highlight the contours of the face and clothing. 
+            The lighting is {character.image_lighting}, with shading {character.image_shading} to highlight the contours of the face and clothing. 
             The background should be neutral, uncluttered, and minimalist to facilitate later cropping.
-            The image style will be {details['style']} and {details['image_type']}.
-            The texture is {details['texture']}, with a focus on the sharp details of the face and clothing. 
-            The predominant colors are {details.get('dominant_colors', 'neutral')} and the image should have {details.get('contrast', 'moderate')} contrast.
+            The image style will be {character.image_style} and {character.image_type}.
+            The texture is {character.image_texture}, with a focus on the sharp details of the face and clothing. 
+            The predominant colors are {character.image_dominant_colors} and the image should have {character.image_contrast} contrast.
             """
 
             # Call the function to generate the image using the DALL·E API 

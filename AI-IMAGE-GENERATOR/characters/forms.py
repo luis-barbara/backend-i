@@ -2,11 +2,9 @@ from django import forms
 from characters.models import Character  
 
 class CharacterForm(forms.ModelForm):
+    user = forms.IntegerField(widget=forms.HiddenInput, required=False)
+
     class Meta:
         model = Character
-        fields = [
-            'name', 'gender', 'age', 'skin', 'ethnicity', 'eye_color', 'hair_color', 
-            'hair_style', 'clothing', 'clothing_style', 'accessories', 'expression', 
-            'pose', 'lighting', 'additional_details', 'image_type', 'style', 'texture', 
-            'dominant_colors', 'contrast', 'shading'
-        ]
+        fields = '__all__'
+
