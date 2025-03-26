@@ -1,4 +1,4 @@
-import datetime
+from django.utils.timezone import now
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -260,42 +260,42 @@ class Character(models.Model):
 
     # Basic Information
     title = models.CharField(max_length=255)  
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES) 
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES) 
     age = models.PositiveIntegerField()  
-    skin = models.CharField(max_length=2,choices=SKIN_CHOICES)
-    ethnicity = models.CharField(max_length=2, choices=ETHNICITY_CHOICES)  
+    skin = models.CharField(max_length=10,choices=SKIN_CHOICES)
+    ethnicity = models.CharField(max_length=10, choices=ETHNICITY_CHOICES)  
 
     # Physical Attributes
-    eye_color = models.CharField(max_length=2, choices=EYE_COLOR_CHOICES)
-    hair_color = models.CharField(max_length=2, choices=HAIR_COLOR_CHOICES)
-    hair_style = models.CharField(max_length=2, choices=HAIR_STYLE_CHOICES)
+    eye_color = models.CharField(max_length=10, choices=EYE_COLOR_CHOICES)
+    hair_color = models.CharField(max_length=10, choices=HAIR_COLOR_CHOICES)
+    hair_style = models.CharField(max_length=10, choices=HAIR_STYLE_CHOICES)
 
     # Clothing and Accessories
     clothing = models.CharField(max_length=10,  choices=CLOTHING_CHOICES) 
-    clothing_style = models.CharField(max_length=2, choices=CLOTHING_STYLE_CHOICES)
-    accessories = models.CharField(max_length=6, choices=ACCESSORIES_CHOICES)
+    clothing_style = models.CharField(max_length=10, choices=CLOTHING_STYLE_CHOICES)
+    accessories = models.CharField(max_length=10, choices=ACCESSORIES_CHOICES)
 
     # Expression and Pose
-    expression = models.CharField(max_length=2, choices=EXPRESSION_CHOICES) 
-    pose = models.CharField(max_length=6, choices=POSE_CHOICES) 
+    expression = models.CharField(max_length=10, choices=EXPRESSION_CHOICES) 
+    pose = models.CharField(max_length=10, choices=POSE_CHOICES) 
 
     # Image Style Settings
-    image_type = models.CharField(max_length=2, choices=IMAGE_TYPE_CHOICES)
-    image_style = models.CharField(max_length=2, choices=IMAGE_STYLE_CHOICES)
-    image_texture = models.CharField(max_length=7, choices=IMAGE_TEXTURE_CHOICES)
-    image_dominant_colors = models.CharField(max_length=3, choices=IMAGE_DOMINANT_COLORS_CHOICES) 
-    image_contrast = models.CharField(max_length=2, choices=IMAGE_CONTRAST_CHOICES)
-    image_shading = models.CharField(max_length=2, choices=IMAGE_SHADING_CHOICES)
+    image_type = models.CharField(max_length=10, choices=IMAGE_TYPE_CHOICES)
+    image_style = models.CharField(max_length=10, choices=IMAGE_STYLE_CHOICES)
+    image_texture = models.CharField(max_length=10, choices=IMAGE_TEXTURE_CHOICES)
+    image_dominant_colors = models.CharField(max_length=10, choices=IMAGE_DOMINANT_COLORS_CHOICES) 
+    image_contrast = models.CharField(max_length=10, choices=IMAGE_CONTRAST_CHOICES)
+    image_shading = models.CharField(max_length=10, choices=IMAGE_SHADING_CHOICES)
 
     # Image Details
-    image_lighting = models.CharField(max_length=2, choices=IMAGE_LIGHTING_CHOICES)
-    image_additional_details = models.CharField(max_length=6, choices=IMAGE_ADDITIONAL_DETAILS_CHOICES) 
+    image_lighting = models.CharField(max_length=10, choices=IMAGE_LIGHTING_CHOICES)
+    image_additional_details = models.CharField(max_length=10, choices=IMAGE_ADDITIONAL_DETAILS_CHOICES) 
 
     
 
     user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="characters", null=True)
     image_url = models.URLField(max_length=1024, blank=True, null=True)
-    date = models.DateTimeField(default=datetime.now, blank=True)
+    date = models.DateTimeField(default=now, blank=True)
 
 
     class Meta:

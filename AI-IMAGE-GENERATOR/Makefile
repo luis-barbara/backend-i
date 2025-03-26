@@ -2,10 +2,10 @@ start:
 	poetry run python manage.py runserver
 
 migrate:
-	poetry run python manage.py migrate
+	docker compose run --rm web poetry run python manage.py migrate
 
 migrations:
-	poetry run python manage.py makemigrations
+	docker compose run --rm web poetry run python manage.py makemigrations
 	@# se eliminar pasta 
 
 createsuperuser:
@@ -22,4 +22,4 @@ tests:
 	poetry run pytest -vvv
 
 compose.migrate:
-	docker compose run -rm web poetry run python manage.py migrate
+	docker compose run --rm web poetry run python manage.py migrate

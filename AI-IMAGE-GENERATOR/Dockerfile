@@ -10,7 +10,7 @@ COPY . .
 
 RUN poetry install -n 
 EXPOSE 8000
-RUN poetry run manage.py collectstatic --noinput
+RUN poetry run python manage.py collectstatic --noinput
 ENTRYPOINT [ "poetry", "run" ]
 CMD ["uvicorn", "dali.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
 

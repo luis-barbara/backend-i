@@ -5,7 +5,13 @@
 {% endblock %}
 
 {% block menu %}
-    <h1>Create Your Character</h1>
+    {% if request.user.is_authenticated %}
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        <h1>Create Your Character</h1>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -17,33 +23,29 @@
 
     {% if character %}
         <h2>Character Created Successfully!</h2>
-        <p>Name: {{ character.name }}</p>
-        <p>Gender: {{ character.gender }}</p>
+        <p>Title: {{ character.title }}</p>
+        <p>Gender: {{ character.get_gender_display }}</p>
         <p>Age: {{ character.age }}</p>
-        <p>Skin Tone: {{ character.skin }}</p>
-        <p>Ethnicity: {{ character.ethnicity }}</p>
-        <p>Eye Color: {{ character.eye_color }}</p>
-        <p>Hair Color: {{ character.hair_color }}</p>
-        <p>Hair Style: {{ character.hair_style }}</p>
-        <p>Clothing Style: {{ character.clothing_style }}</p>
-        <p>Accessories: 
-            {% if character.accessories %}
-                {{ character.accessories|join:", " }}
-            {% else %}
-                None
-            {% endif %}
-        </p>
-        <p>Expression: {{ character.expression }}</p>
-        <p>Pose: {{ character.pose }}</p>
-        <p>Lighting: {{ character.lighting }}</p>
-        <p>Additional Details: {{ character.additional_details }}</p>
-        <p>Image Type: {{ character.image_type }}</p>
-        <p>Style: {{ character.style }}</p>
-        <p>Texture: {{ character.texture }}</p>
-        <p>Dominant Colors: {{ character.dominant_colors }}</p>
-        <p>Contrast: {{ character.contrast }}</p>
-        <p>Shading: {{ character.shading }}</p>
+        <p>Skin Tone: {{ character.get_skin_display }}</p>
+        <p>Ethnicity: {{ character.get_ethnicity_display }}</p>
+        <p>Eye Color: {{ character.get_eye_color_display }}</p>
+        <p>Hair Color: {{ character.get_hair_color_display }}</p>
+        <p>Hair Style: {{ character.get_hair_style_display }}</p>
+        <p>Clothing: {{ character.get_clothing_display }}</p>
+        <p>Clothing Style: {{ character.get_clothing_style_display }}</p>
+        <p>Accessories: {{ character.get_accessories_display }}</p>
+        <p>Expression: {{ character.get_expression_display }}</p>
+        <p>Pose: {{ character.get_pose_display }}</p>
+        <p>Image Type: {{ character.get_image_type_display }}</p>
+        <p>Image Style: {{ character.get_image_style_display }}</p>
+        <p>Image Texture: {{ character.get_image_texture_display }}</p>
+        <p>Dominant Colors: {{ character.get_image_dominant_colors_display }}</p>
+        <p>Contrast: {{ character.get_image_contrast_display }}</p>
+        <p>Shading: {{ character.get_image_shading_display }}</p>
+        <p>Lighting: {{ character.get_image_lighting_display }}</p>
+        <p>Additional Details: {{ character.get_image_additional_details_display }}</p>
 
-        <img src="{{ character.image.url }}" alt="Character Image" />
+        <img src="{{ character.image_url }}" alt="Character Image" />
     {% endif %}
 {% endblock %}
+
