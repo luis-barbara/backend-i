@@ -3,13 +3,11 @@ from characters.models import Character
 
 # Register your models here.
 
-
 class CharacterAdmin(admin.ModelAdmin):
     # Fields to be displayed in the admin list view
     list_display = (
-        "title", "gender", "age", "skin", "ethnicity", "eye_color", 
-        "hair_color", "hair_style", "clothing_style", "expression", 
-        "pose", "image_type", "image_style"
+        "title", "gender", "age", "skin", "ethnicity", "eye_color", "hair_color",
+        "hair_style", "clothing_style", "expression", "pose", "image_type", "image_style", "date", "user", "image_url"
     )
 
     # Sidebar filters
@@ -35,8 +33,13 @@ class CharacterAdmin(admin.ModelAdmin):
         ("Additional Information", {
             "fields": ("image_lighting", "image_additional_details", "additional_details")
         }),
+        ("User Information", {
+            "fields": ("user", "image_url")
+        }),
     )
 
+    # Sorting order for the list view
+    ordering = ('-date',)
 
-
+# Registering the Character model with custom admin interface
 admin.site.register(Character, CharacterAdmin)

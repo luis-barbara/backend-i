@@ -1,4 +1,4 @@
-from django.shortcuts import redirect  
+from django.shortcuts import redirect, render 
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, TemplateView, FormView
 from django.contrib.auth import logout
@@ -38,8 +38,9 @@ class CreateCharacterView(LoginRequiredMixin, CreateView):
     template_name = "characters/create_character.html"
 
     def get_context_data(self, **kwargs):
-        kwargs["object_list"] = Character.objects.filter(user=self.request.user).all()
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context["object_list"] = Character.objects.filter(user=self.request.user).all()
+        return context
 
     def form_valid(self, form):
         form.instance.user = self.request.user  
@@ -77,10 +78,16 @@ class CreateCharacterView(LoginRequiredMixin, CreateView):
         """
 
         try:
-            character.image_url = generate_image(prompt)  
-            character.save()
-            messages.success(self.request, "Character created successfully!")
-            return self.render_to_response(self.get_context_data(form=form, new_character=character))
+            image_url = generate_image(prompt)  
+            if image_url:
+                character.image_url = image_url
+                character.save()
+                messages.success(self.request, "Character created successfully!")
+                return self.render_to_response(self.get_context_data(form=form, new_character=character))
+            else:
+                messages.error(self.request, "Image generation failed. Try again.")
+                return render(self.request, self.template_name, self.get_context_data(form=form))
+
         except Exception as e:
             messages.error(self.request, f"Failed to generate image: {str(e)}")
-            return self.render_to_response(self.get_context_data(form=form))
+            return render(self.request, self.template_name, self.get_context_data(form=form))

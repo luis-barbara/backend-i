@@ -1,4 +1,4 @@
 - superuser: dali/admin@123
-- user: john cenas/aluno123
+- user: johncenas/aluno123
 - poetry add python-dotenv
 - poetry add openai

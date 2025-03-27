@@ -293,7 +293,7 @@ class Character(models.Model):
 
     
 
-    user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="characters", null=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, null=True)
     image_url = models.URLField(max_length=1024, blank=True, null=True)
     date = models.DateTimeField(default=now, blank=True)
 

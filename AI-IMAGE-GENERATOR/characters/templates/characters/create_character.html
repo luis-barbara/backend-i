@@ -21,31 +21,39 @@
         <button type="submit">Create Character</button>
     </form>
 
-    {% if character %}
+    {% if new_character %}
         <h2>Character Created Successfully!</h2>
-        <p>Title: {{ character.title }}</p>
-        <p>Gender: {{ character.get_gender_display }}</p>
-        <p>Age: {{ character.age }}</p>
-        <p>Skin Tone: {{ character.get_skin_display }}</p>
-        <p>Ethnicity: {{ character.get_ethnicity_display }}</p>
-        <p>Eye Color: {{ character.get_eye_color_display }}</p>
-        <p>Hair Color: {{ character.get_hair_color_display }}</p>
-        <p>Hair Style: {{ character.get_hair_style_display }}</p>
-        <p>Clothing: {{ character.get_clothing_display }}</p>
-        <p>Clothing Style: {{ character.get_clothing_style_display }}</p>
-        <p>Accessories: {{ character.get_accessories_display }}</p>
-        <p>Expression: {{ character.get_expression_display }}</p>
-        <p>Pose: {{ character.get_pose_display }}</p>
-        <p>Image Type: {{ character.get_image_type_display }}</p>
-        <p>Image Style: {{ character.get_image_style_display }}</p>
-        <p>Image Texture: {{ character.get_image_texture_display }}</p>
-        <p>Dominant Colors: {{ character.get_image_dominant_colors_display }}</p>
-        <p>Contrast: {{ character.get_image_contrast_display }}</p>
-        <p>Shading: {{ character.get_image_shading_display }}</p>
-        <p>Lighting: {{ character.get_image_lighting_display }}</p>
-        <p>Additional Details: {{ character.get_image_additional_details_display }}</p>
+        <p>Title: {{ new_character.title }}</p>
+        <p>Gender: {{ new_character.get_gender_display }}</p>
+        <p>Age: {{ new_character.age }}</p>
+        <p>Skin Tone: {{ new_character.get_skin_display }}</p>
+        <p>Ethnicity: {{ new_character.get_ethnicity_display }}</p>
+        <p>Eye Color: {{ new_character.get_eye_color_display }}</p>
+        <p>Hair Color: {{ new_character.get_hair_color_display }}</p>
+        <p>Hair Style: {{ new_character.get_hair_style_display }}</p>
+        <p>Clothing: {{ new_character.get_clothing_display }}</p>
+        <p>Clothing Style: {{ new_character.get_clothing_style_display }}</p>
+        <p>Accessories: {{ new_character.get_accessories_display }}</p>
+        <p>Expression: {{ new_character.get_expression_display }}</p>
+        <p>Pose: {{ new_character.get_pose_display }}</p>
+        <p>Image Type: {{ new_character.get_image_type_display }}</p>
+        <p>Image Style: {{ new_character.get_image_style_display }}</p>
+        <p>Image Texture: {{ new_character.get_image_texture_display }}</p>
+        <p>Dominant Colors: {{ new_character.get_image_dominant_colors_display }}</p>
+        <p>Contrast: {{ new_character.get_image_contrast_display }}</p>
+        <p>Shading: {{ new_character.get_image_shading_display }}</p>
+        <p>Lighting: {{ new_character.get_image_lighting_display }}</p>
+        <p>Additional Details: {{ new_character.get_image_additional_details_display }}</p>
 
-        <img src="{{ character.image_url }}" alt="Character Image" />
+        <h3>Generated Image</h3>
+        <img src="{{ new_character.image_url }}" alt="Character Image" style="max-width: 100%; height: auto;" />
+    {% endif %}
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        </div>
     {% endif %}
 {% endblock %}
-

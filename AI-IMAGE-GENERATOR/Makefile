@@ -21,5 +21,17 @@ pyclean:
 tests:
 	poetry run pytest -vvv
 
+compose.start:
+	docker compose up --build --force-recreate -d
+
 compose.migrate:
 	docker compose run --rm web poetry run python manage.py migrate
+
+compose.superuser:
+	docker compose run --rm web poetry run python manage.py createsuperuser
+
+compose.bootstrap:
+	make compose.start
+	sleep 5
+	make compose.migrate
+	make compose.superuser
