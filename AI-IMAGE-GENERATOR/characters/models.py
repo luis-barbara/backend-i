@@ -156,36 +156,26 @@ ACCESSORIES_CHOICES = [
 
 
 # 2. Image Style Settings Choices
-IMAGE_TYPE_CHOICES = [
-    ("PR", "Photorealistic"),
-    ("CT", "Cartoon"),
-    ("SK", "Sketch"),
-    ("PA", "Painting"),
-    ("3D", "3D Render"),
-    ("AB", "Abstract"),
-    ("CG", "Concept Art"),
-    ("IM", "Illustration"),
-]
-
 IMAGE_STYLE_CHOICES = [
-    ("RL", "Realistic"),
-    ("CT", "Cartoonish"),
+    ("RL", "Photorealistic"),
+    ("CT", "Cartoon"),
     ("AB", "Abstract"),
     ("PA", "Painting"),
     ("3D", "3D Render"),
     ("AN", "Anime"),
     ("SK", "Sketch"),
     ("CG", "Concept Art"),
+    ("IM", "Illustration"),
+    ("SG", "Studio Ghibli"),
+    ("DS", "Disney Animation"),
+    ("PX", "Pixar"),
+    ("WB", "Warner Bros Animation"),
 ]
 
 IMAGE_TEXTURE_CHOICES = [
     ("SM", "Smooth"),
     ("RF", "Rough"),
     ("GR", "Grainy"),
-    ("SM_RF", "Smooth and Rough"),
-    ("SM_GR", "Smooth and Grainy"),
-    ("RF_GR", "Rough and Grainy"),
-    ("SM_RF_GR", "Smooth, Rough and Grainy"),
 ]
 
 IMAGE_DOMINANT_COLORS_CHOICES = [
@@ -251,7 +241,30 @@ IMAGE_ADDITIONAL_DETAILS_CHOICES = [
     ("BG_CE", "Background, Cinematic Effect"),
 ]
 
+# 5. Photography Technical Options
+CAMERA_CHOICES = [
+    ("CANON_XTi", "Canon EOS Digital Rebel XTi"),
+    ("NIKON_D810", "Nikon D810"),
+    ("CANON_1000D", "Canon EOS 1000D"),
+]
 
+LENS_CHOICES = [
+    ("100_300mm_f5_6", "100-300mm Canon f/5.6"),
+    ("18mm_f3_5", "18mm Canon f/3.5"),
+    ("85mm_f2_5", "85mm f/2.5"),
+]
+
+ISO_CHOICES = [
+    ("ISO_64", "ISO 64"),
+    ("ISO_200", "ISO 200"),
+    ("ISO_400", "ISO 400"),
+]
+
+EXPOSURE_CHOICES = [
+    ("1_160", "1/160"),
+    ("1_5", "1/5"),
+    ("1_800", "1/800"),
+]
 
 
 # Character Model
@@ -260,38 +273,42 @@ class Character(models.Model):
 
     # Basic Information
     title = models.CharField(max_length=255)  
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES) 
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES,default=GENDER_CHOICES[0][0]) 
     age = models.PositiveIntegerField()  
-    skin = models.CharField(max_length=10,choices=SKIN_CHOICES)
-    ethnicity = models.CharField(max_length=10, choices=ETHNICITY_CHOICES)  
+    skin = models.CharField(max_length=10,choices=SKIN_CHOICES,default=SKIN_CHOICES[0][0])
+    ethnicity = models.CharField(max_length=10, choices=ETHNICITY_CHOICES,default=ETHNICITY_CHOICES[0][0])  
 
     # Physical Attributes
-    eye_color = models.CharField(max_length=10, choices=EYE_COLOR_CHOICES)
-    hair_color = models.CharField(max_length=10, choices=HAIR_COLOR_CHOICES)
-    hair_style = models.CharField(max_length=10, choices=HAIR_STYLE_CHOICES)
+    eye_color = models.CharField(max_length=10, choices=EYE_COLOR_CHOICES,default=EYE_COLOR_CHOICES[0][0])
+    hair_color = models.CharField(max_length=10, choices=HAIR_COLOR_CHOICES,default=HAIR_COLOR_CHOICES[0][0])
+    hair_style = models.CharField(max_length=10, choices=HAIR_STYLE_CHOICES,default=HAIR_STYLE_CHOICES[0][0])
 
     # Clothing and Accessories
-    clothing = models.CharField(max_length=10,  choices=CLOTHING_CHOICES) 
-    clothing_style = models.CharField(max_length=10, choices=CLOTHING_STYLE_CHOICES)
-    accessories = models.CharField(max_length=10, choices=ACCESSORIES_CHOICES)
+    clothing = models.CharField(max_length=10,  choices=CLOTHING_CHOICES,default=CLOTHING_CHOICES[0][0]) 
+    clothing_style = models.CharField(max_length=10, choices=CLOTHING_STYLE_CHOICES,default=CLOTHING_STYLE_CHOICES[0][0])
+    accessories = models.CharField(max_length=10, choices=ACCESSORIES_CHOICES,default=ACCESSORIES_CHOICES[0][0])
 
     # Expression and Pose
-    expression = models.CharField(max_length=10, choices=EXPRESSION_CHOICES) 
-    pose = models.CharField(max_length=10, choices=POSE_CHOICES) 
+    expression = models.CharField(max_length=10, choices=EXPRESSION_CHOICES,default=EXPRESSION_CHOICES[0][0]) 
+    pose = models.CharField(max_length=10, choices=POSE_CHOICES,default=POSE_CHOICES[0][0]) 
 
     # Image Style Settings
-    image_type = models.CharField(max_length=10, choices=IMAGE_TYPE_CHOICES)
-    image_style = models.CharField(max_length=10, choices=IMAGE_STYLE_CHOICES)
-    image_texture = models.CharField(max_length=10, choices=IMAGE_TEXTURE_CHOICES)
-    image_dominant_colors = models.CharField(max_length=10, choices=IMAGE_DOMINANT_COLORS_CHOICES) 
-    image_contrast = models.CharField(max_length=10, choices=IMAGE_CONTRAST_CHOICES)
-    image_shading = models.CharField(max_length=10, choices=IMAGE_SHADING_CHOICES)
+    image_style = models.CharField(max_length=10, choices=IMAGE_STYLE_CHOICES,default=IMAGE_STYLE_CHOICES[0][0])
+    image_texture = models.CharField(max_length=10, choices=IMAGE_TEXTURE_CHOICES,default=IMAGE_TEXTURE_CHOICES[0][0])
+    image_dominant_colors = models.CharField(max_length=10, choices=IMAGE_DOMINANT_COLORS_CHOICES,default=IMAGE_DOMINANT_COLORS_CHOICES[0][0]) 
+    image_contrast = models.CharField(max_length=10, choices=IMAGE_CONTRAST_CHOICES,default=IMAGE_CONTRAST_CHOICES[0][0])
+    image_shading = models.CharField(max_length=10, choices=IMAGE_SHADING_CHOICES,default=IMAGE_SHADING_CHOICES[0][0])
 
     # Image Details
-    image_lighting = models.CharField(max_length=10, choices=IMAGE_LIGHTING_CHOICES)
-    image_additional_details = models.CharField(max_length=10, choices=IMAGE_ADDITIONAL_DETAILS_CHOICES) 
+    image_lighting = models.CharField(max_length=10, choices=IMAGE_LIGHTING_CHOICES,default=IMAGE_LIGHTING_CHOICES[0][0])
+    image_additional_details = models.CharField(max_length=10, choices=IMAGE_ADDITIONAL_DETAILS_CHOICES,default=IMAGE_ADDITIONAL_DETAILS_CHOICES[0][0]) 
 
-    
+    # Opções de Fotografia
+    camera = models.CharField(max_length=20, choices=CAMERA_CHOICES,default=CAMERA_CHOICES[0][0])
+    lens = models.CharField(max_length=20, choices=LENS_CHOICES,default=LENS_CHOICES[0][0])
+    iso = models.CharField(max_length=10, choices=ISO_CHOICES,default=ISO_CHOICES[0][0])
+    exposure = models.CharField(max_length=10, choices=EXPOSURE_CHOICES,default=EXPOSURE_CHOICES[0][0])
+
 
     user = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, null=True)
     image_url = models.URLField(max_length=1024, blank=True, null=True)

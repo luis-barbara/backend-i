@@ -7,11 +7,13 @@ class CharacterAdmin(admin.ModelAdmin):
     # Fields to be displayed in the admin list view
     list_display = (
         "title", "gender", "age", "skin", "ethnicity", "eye_color", "hair_color",
-        "hair_style", "clothing_style", "expression", "pose", "image_type", "image_style", "date", "user", "image_url"
+        "hair_style", "clothing_style", "expression", "pose", "image_style", "date", "user", "image_url"
     )
 
     # Sidebar filters
-    list_filter = ("gender", "ethnicity", "eye_color", "hair_color", "clothing_style", "image_type")
+    list_filter = (
+        "gender", "ethnicity", "eye_color", "hair_color", "clothing_style", "image_style"
+    )
 
     # Searchable fields in the admin
     search_fields = ("title", "gender", "ethnicity", "eye_color", "hair_color")
@@ -28,7 +30,7 @@ class CharacterAdmin(admin.ModelAdmin):
             "fields": ("expression", "pose")
         }),
         ("Image Details", {
-            "fields": ("image_type", "image_style", "image_texture", "image_dominant_colors", "image_contrast", "image_shading")
+            "fields": ("image_style", "image_texture", "image_dominant_colors", "image_contrast", "image_shading")
         }),
         ("Additional Information", {
             "fields": ("image_lighting", "image_additional_details", "additional_details")
@@ -37,6 +39,7 @@ class CharacterAdmin(admin.ModelAdmin):
             "fields": ("user", "image_url")
         }),
     )
+
 
     # Sorting order for the list view
     ordering = ('-date',)

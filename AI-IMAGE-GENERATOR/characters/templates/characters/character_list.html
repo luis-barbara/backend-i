@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Your Characters{% endblock %}
+
+{% block content %}
+    <a href="{% url 'character-create' %}">
+        <button>Create New Character</button>
+    </a>
+
+    <h1>Your Characters</h1>
+    
+    <ul>
+        {% for character in characters %}
+            <li>
+                <h3>{{ character.title }}</h3>
+
+                {% if character.image_url %}
+                    <img src="{{ character.image_url.url }}" alt="{{ character.title }}" style="max-width: 150px;">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+                <a href="{% url 'character-update' character.pk %}">
+                    <button>Edit</button>
+                </a>
+                <a href="{% url 'character-delete' character.pk %}">
+                    <button>Delete</button>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
