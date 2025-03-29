@@ -5,5 +5,5 @@ class CharacterForm(forms.ModelForm):
 
     class Meta:
         model = Character
-        fields = '__all__'
+        exclude = ['user']
 
