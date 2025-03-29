@@ -14,6 +14,6 @@ urlpatterns = [
     # Character management routes
     path("characters/", views.CharacterListView.as_view(), name="character-list"),  # List all characters
     path("characters/create/", views.CreateCharacterView.as_view(), name="character-create"),  # Create a character
-    path("characters/<int:pk>/edit/", views.CharacterUpdateView.as_view(), name="character-edit"),  # Edit a character
+    path("characters/<int:pk>/update/", views.CharacterUpdateView.as_view(), name="character-update"),  # Edit a character
     path("characters/<int:pk>/delete/", views.CharacterDeleteView.as_view(), name="character-delete"),  # Delete a character
 ]

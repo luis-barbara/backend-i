@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}Your Characters{% endblock %}
+{% block title %}
+    Your Characters
+{% endblock %}
+
+{% block menu %}
+    {% if request.user.is_authenticated %}
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% endif %}
+{% endblock %}
+
 
 {% block content %}
     <a href="{% url 'character-create' %}">
@@ -14,21 +26,15 @@
             <li>
                 <h3>{{ character.title }}</h3>
 
-                {% if character.image_url %}
-                    <img src="{{ character.image_url }}" alt="{{ character.title }}" style="max-width: 150px;">
-                {% else %}
-                    <p>No image available</p>
-                {% endif %}
-
-                <a href="{% url 'character-update' character.pk %}" aria-label="Edit {{ character.title }}">
+                <!-- Edit Button -->
+                <a href="{% url 'character-update' character.pk %}" class="btn-edit">
                     <button>Edit</button>
                 </a>
 
-                <!-- Deleting Character using POST -->
-                <form method="post" action="{% url 'character-delete' character.pk %}">
-                    {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
+                <!-- Delete Form -->
+                <a href="{% url 'character-delete' character.pk %}" class="btn-delete">
+                    <button>Delete</button>
+                </a>
             </li>
         {% empty %}
             <li>You have no characters yet.</li>
