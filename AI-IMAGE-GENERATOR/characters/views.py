@@ -35,83 +35,73 @@ def logout_view(request):
         return redirect("/")
 
 
-# View for character creation
 class CreateCharacterView(LoginRequiredMixin, CreateView):
     model = Character
     form_class = CharacterForm
     template_name = "characters/create_character.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["object_list"] = Character.objects.filter(user=self.request.user).all()
-        return context
+    success_url = reverse_lazy('character-list') 
 
     def form_valid(self, form):
-        form.instance.user = self.request.user  
+        form.instance.user = self.request.user
         character = form.save(commit=False)
 
+        # Constructing the prompt dynamically based on the selected options
+        prompt_parts = ["Generate a high-quality portrait of a single character with the following attributes:"]
 
-        # Generate the prompt based on the character's attributes
-        prompt = f"""
-        Generate a {character.get_image_style_display().lower()} character portrait with strict adherence to these specifications:
+        # Mapping all the options the user may select
+        attributes = {
+            "age": f"- Age: {character.age} years old" if character.age else None,
+            "gender": f"- Gender: {character.get_gender_display().lower()}" if character.gender else None,
+            "ethnicity": f"- Ethnicity: {character.get_ethnicity_display()}" if character.ethnicity else None,
+            "skin": f"- Skin tone: {character.get_skin_display().lower()}" if character.skin else None,
+            "eye_color": f"- Eye color: {character.get_eye_color_display().lower()} (must match exactly)" if character.eye_color else None,
+            "hair": f"- Hair: {character.get_hair_style_display().lower()} {character.get_hair_color_display().lower()}" if character.hair_style and character.hair_color else None,
+            "clothing": f"- Outfit: {character.get_clothing_display()}" if character.clothing else None,
+            "clothing_style": f"- Clothing style: {character.get_clothing_style_display().lower()}" if character.clothing_style else None,
+            "accessories": f"- Accessories: {character.get_accessories_display().lower()}" if character.accessories else None,
+            "expression": f"- Expression: {character.get_expression_display().lower()}" if character.expression else None,
+            "pose": f"- Pose: {character.get_pose_display().lower()}" if character.pose else None,
+            "image_style": f"- Artistic style: {character.get_image_style_display().lower()}" if character.image_style else None,
+            "image_lighting": f"- Lighting: {character.get_image_lighting_display().lower()}" if character.image_lighting else None,
+            "image_shading": f"- Shading: {character.get_image_shading_display().lower()} shadows" if character.image_shading else None,
+            "image_texture": f"- Texture: {character.get_image_texture_display().lower()} surfaces" if character.image_texture else None,
+            "image_dominant_colors": f"- Dominant color palette: {character.get_image_dominant_colors_display().lower()}" if character.image_dominant_colors else None,
+            "image_additional_details": f"- Background: {character.get_image_additional_details_display().lower()}" if character.image_additional_details else None,
+            "camera": f"- Camera setup: {character.get_camera_display()} with {character.get_lens_display()}" if character.camera and character.lens else None,
+            "iso": f"- ISO: {character.get_iso_display()}" if character.iso else None,
+            "exposure": f"- Exposure: {character.get_exposure_display()} shutter" if character.exposure else None
+        }
 
-        ### Physical Attributes:
-        - {character.age}-year-old {character.get_gender_display().lower()}
-        - Ethnicity: {character.get_ethnicity_display()}
-        - Skin: {character.get_skin_display().lower()} tone
-        - Eyes: {character.get_eye_color_display().lower()} (must match exactly)
-        - Hair: {character.get_hair_style_display().lower()} {character.get_hair_color_display().lower()}
+        # Only adding non-null attributes to the prompt
+        prompt_parts.extend([desc for desc in attributes.values() if desc])
 
-        ### Styling:
-        - Outfit: {character.get_clothing_display()} ({character.get_clothing_style_display().lower()})
-        - Accessories: {character.get_accessories_display().lower()}
-        - Expression: {character.get_expression_display().lower()} 
-        - Pose: {character.get_pose_display().lower()}
+        # Adding fixed rules regarding the number of characters and other restrictions
+        prompt_parts.append(""" 
+        - The image must contain exactly ONE character. Do not include any other figures, silhouettes, or background characters.
+        - Strictly follow the described attributes. No variations or artistic reinterpretations are allowed.
+        - Ensure all elements match the given descriptions without deviations.
+        """)
 
-        ### Rendering Specifications:
-        - Style: {character.get_image_style_display().lower()}
-        - Lighting: {character.get_image_lighting_display().lower()}
-        - Shading: {character.get_image_shading_display().lower()} shadows
-        - Texture: {character.get_image_texture_display().lower()} surfaces
-        - Colors: Dominant {character.get_image_dominant_colors_display().lower()} palette
-        - Background: {character.get_image_additional_details_display().lower()}
-
-        ### Photography Details:
-        - Camera: {character.get_camera_display()} with {character.get_lens_display()}
-        - Settings: ISO {character.get_iso_display()}, {character.get_exposure_display()} shutter
-
-        ### Mandatory Requirements:
-        1. Accuracy:
-        - Eye color must be {character.get_eye_color_display().lower()} (no variations)
-        - Skin tone must match "{character.get_skin_display().lower()}" exactly
-        - Hair style/color as described
-        2. Quality:
-        - 8K resolution, studio lighting
-        - Anatomically correct proportions
-        - Hyper-detailed:
-            * Skin: Visible pores, natural imperfections
-            * Hair: Individual strands, texture-appropriate
-            * Fabric: Material-accurate (denim/knit/silk etc.)
-        3. Prohibited:
-        - Stylized interpretations
-        - Asymmetry/distortions
-        - Artificial-looking textures
-        - Color bleeding or mismatches
-        """
+        prompt = "\n".join(prompt_parts)
 
         try:
             image_url = generate_image(prompt)  
-            if image_url:
-                character.image_url = image_url
-                character.save()
-                messages.success(self.request, "Character created successfully!")
-                return self.render_to_response(self.get_context_data(form=form, new_character=character))
-            else:
-                messages.error(self.request, "Image generation failed. Try again.")
-                return render(self.request, self.template_name, self.get_context_data(form=form))
+            if not image_url:
+                form.add_error(None, "Image generation failed. Try again.")
+                return self.form_invalid(form)
+            
+            if not image_url.startswith(('http://', 'https://')):
+                image_url = f'https://{image_url}'
+            
+            character.image_url = image_url
+            character.save()
+            messages.success(self.request, "Character created successfully!")
+            return redirect(self.get_success_url())  
+
         except Exception as e:
-            messages.error(self.request, f"Failed to generate image: {str(e)}")
-            return render(self.request, self.template_name, self.get_context_data(form=form))
+            form.add_error(None, f"Failed to generate image: {str(e)}")
+            return self.form_invalid(form)
+
 
 
 # View to list alll characters 
@@ -122,7 +112,6 @@ class CharacterListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Character.objects.filter(user=self.request.user)
-
 
 # View to update a character 
 class CharacterUpdateView(LoginRequiredMixin, UpdateView):

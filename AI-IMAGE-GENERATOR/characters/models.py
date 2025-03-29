@@ -10,11 +10,13 @@ from django.contrib.auth import get_user_model
 
 # 1. Basic Choices for Character Attributes
 GENDER_CHOICES = [
+    ("", "No selection"),
     ("M", "Male"),
     ("F", "Female"),
 ]
 
 SKIN_CHOICES = [
+    ("", "No selection"),
     ("LT", "Light"),
     ("MD", "Medium"),
     ("DR", "Dark"),
@@ -24,6 +26,7 @@ SKIN_CHOICES = [
 ]
 
 ETHNICITY_CHOICES = [
+    ("", "No selection"),
     ("WH", "White"),
     ("BL", "Black"),
     ("LA", "Latino/Hispanic"),
@@ -34,6 +37,7 @@ ETHNICITY_CHOICES = [
 ]
 
 EYE_COLOR_CHOICES = [
+    ("", "No selection"),
     ("BR", "Brown"),
     ("BL", "Blue"),
     ("GR", "Green"),
@@ -44,6 +48,7 @@ EYE_COLOR_CHOICES = [
 ]
 
 HAIR_COLOR_CHOICES = [
+    ("", "No selection"),
     ("BK", "Black"),
     ("BR", "Brown"),
     ("BL", "Blonde"),
@@ -59,6 +64,7 @@ HAIR_COLOR_CHOICES = [
 ]
 
 HAIR_STYLE_CHOICES = [
+    ("", "No selection"),
     ("SH_WG", "Short and Well-Groomed"),
     ("SH_UN", "Short and Unkempt"),
     ("MD_WG", "Medium and Well-Groomed"),
@@ -80,6 +86,7 @@ HAIR_STYLE_CHOICES = [
 ]
 
 CLOTHING_CHOICES = [
+    ("", "No selection"),
     ("LB_SJ_DJ", "Light Blue Shirt and Dark Jeans"),
     ("WB_SJ_LJ", "White Button-up Shirt and Light Jeans"),
     ("BL_SJ_DJ", "Black Shirt and Dark Jeans"),
@@ -98,6 +105,7 @@ CLOTHING_CHOICES = [
 ]
 
 CLOTHING_STYLE_CHOICES = [
+    ("", "No selection"),
     ("CA", "Casual"),
     ("FO", "Formal"),
     ("SP", "Sporty"),
@@ -111,6 +119,7 @@ CLOTHING_STYLE_CHOICES = [
 ]
 
 EXPRESSION_CHOICES = [
+    ("", "No selection"),
     ("CF", "Confident"),
     ("SM", "Smiling"),
     ("SO", "Serious"),
@@ -124,6 +133,7 @@ EXPRESSION_CHOICES = [
 ]
 
 POSE_CHOICES = [
+    ("", "No selection"),
     ("FF_UP", "Facing Forward, Upright Posture"),
     ("FF_SL", "Facing Forward, Slight Lean"),
     ("SI", "Sitting"),
@@ -139,6 +149,7 @@ POSE_CHOICES = [
 ]
 
 ACCESSORIES_CHOICES = [
+    ("", "No selection"),
     ("WW_SG", "Wristwatch and Sunglasses"),
     ("HT_SG", "Hat and Sunglasses"),
     ("BR_WW", "Bracelet and Wristwatch"),
@@ -157,6 +168,7 @@ ACCESSORIES_CHOICES = [
 
 # 2. Image Style Settings Choices
 IMAGE_STYLE_CHOICES = [
+    ("", "No selection"),
     ("RL", "Photorealistic"),
     ("CT", "Cartoon"),
     ("AB", "Abstract"),
@@ -173,12 +185,14 @@ IMAGE_STYLE_CHOICES = [
 ]
 
 IMAGE_TEXTURE_CHOICES = [
+    ("", "No selection"),
     ("SM", "Smooth"),
     ("RF", "Rough"),
     ("GR", "Grainy"),
 ]
 
 IMAGE_DOMINANT_COLORS_CHOICES = [
+    ("", "No selection"),
     ("NE", "Neutral"),
     ("RD", "Red"),
     ("BL", "Blue"),
@@ -197,6 +211,7 @@ IMAGE_DOMINANT_COLORS_CHOICES = [
 ]
 
 IMAGE_CONTRAST_CHOICES = [
+    ("", "No selection"),
     ("VH", "Very High"),
     ("HI", "High"),
     ("MD", "Moderate"),
@@ -206,6 +221,7 @@ IMAGE_CONTRAST_CHOICES = [
 ]
 
 IMAGE_SHADING_CHOICES = [
+    ("", "No selection"),
     ("SO", "Soft"),
     ("MO", "Moderate"),
     ("HR", "Harsh"),
@@ -215,6 +231,7 @@ IMAGE_SHADING_CHOICES = [
 
 # 3. Image Effects (Lighting and Additional Details)
 IMAGE_LIGHTING_CHOICES = [
+    ("", "No selection"),
     ("SD", "Soft and Diffuse"),
     ("HR", "Harsh"),
     ("DR", "Dramatic"),
@@ -228,6 +245,7 @@ IMAGE_LIGHTING_CHOICES = [
 ]
 
 IMAGE_ADDITIONAL_DETAILS_CHOICES = [
+    ("", "No selection"),
     ("NB_UR", "No Background, Ultra-realistic"),
     ("BG_NM", "Background, Night Mode"),
     ("BG_SF", "Background, Soft Focus"),
@@ -243,24 +261,28 @@ IMAGE_ADDITIONAL_DETAILS_CHOICES = [
 
 # 5. Photography Technical Options
 CAMERA_CHOICES = [
+    ("", "No selection"),
     ("CANON_XTi", "Canon EOS Digital Rebel XTi"),
     ("NIKON_D810", "Nikon D810"),
     ("CANON_1000D", "Canon EOS 1000D"),
 ]
 
 LENS_CHOICES = [
+    ("", "No selection"),
     ("100_300mm_f5_6", "100-300mm Canon f/5.6"),
     ("18mm_f3_5", "18mm Canon f/3.5"),
     ("85mm_f2_5", "85mm f/2.5"),
 ]
 
 ISO_CHOICES = [
+    ("", "No selection"),
     ("ISO_64", "ISO 64"),
     ("ISO_200", "ISO 200"),
     ("ISO_400", "ISO 400"),
 ]
 
 EXPOSURE_CHOICES = [
+    ("", "No selection"),
     ("1_160", "1/160"),
     ("1_5", "1/5"),
     ("1_800", "1/800"),

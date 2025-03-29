@@ -15,17 +15,23 @@
                 <h3>{{ character.title }}</h3>
 
                 {% if character.image_url %}
-                    <img src="{{ character.image_url.url }}" alt="{{ character.title }}" style="max-width: 150px;">
+                    <img src="{{ character.image_url }}" alt="{{ character.title }}" style="max-width: 150px;">
                 {% else %}
                     <p>No image available</p>
                 {% endif %}
-                <a href="{% url 'character-update' character.pk %}">
+
+                <a href="{% url 'character-update' character.pk %}" aria-label="Edit {{ character.title }}">
                     <button>Edit</button>
                 </a>
-                <a href="{% url 'character-delete' character.pk %}">
-                    <button>Delete</button>
-                </a>
+
+                <!-- Deleting Character using POST -->
+                <form method="post" action="{% url 'character-delete' character.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
             </li>
+        {% empty %}
+            <li>You have no characters yet.</li>
         {% endfor %}
     </ul>
 {% endblock %}
