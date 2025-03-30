@@ -1,3 +1,4 @@
+import logging
 from django.utils.timezone import now
 from django.db import models
 from django.contrib.auth import get_user_model
@@ -5,6 +6,7 @@ from django.contrib.auth import get_user_model
 
 # Create your models here.
 
+logger = logging.getLogger(__name__)
 
 # Defining choices
 
@@ -346,7 +348,16 @@ class Character(models.Model):
         return self.title
 
 
+    def save(self, *args, **kwargs):
+        if self.pk:
+            logger.info(f"Character '{self.title}' updated by {self.user.username if self.user else 'Unknown User'}.")
+        else:
+            logger.info(f"New character '{self.title}' created by {self.user.username if self.user else 'Unknown User'}.")
+        super().save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        logger.warning(f"Character '{self.title}' deleted by {self.user.username if self.user else 'Unknown User'}.")
+        super().delete(*args, **kwargs)
 
 
 

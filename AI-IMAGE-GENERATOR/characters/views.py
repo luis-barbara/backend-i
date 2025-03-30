@@ -1,7 +1,8 @@
+import logging
 from django.shortcuts import redirect, render
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, TemplateView, FormView
-from django.contrib.auth import logout, login
+from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages  
 from characters.forms import CharacterForm  
@@ -13,6 +14,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import DeleteView
 
 
+logger = logging.getLogger(__name__)
 
 # View for the homepage
 class IndexView(TemplateView):
@@ -93,12 +95,15 @@ class CreateCharacterView(LoginRequiredMixin, CreateView):
             if image_url:
                 character.image_url = image_url  
                 character.save() 
-                messages.success(self.request, "Character created successfully!") 
+                messages.success(self.request, "Character created successfully!")
+                logger.info(f"Character '{character.title}' created successfully by {self.request.user.username}") 
                 return self.render_to_response(self.get_context_data(form=form, new_character=character))
             else:
-                messages.error(self.request, "Image generation failed. Try again.") 
+                messages.error(self.request, "Image generation failed. Try again.")
+                logger.warning(f"Image generation failed for character '{character.title}' by {self.request.user.username}") 
                 return render(self.request, self.template_name, self.get_context_data(form=form))
         except Exception as e:
+            logger.error(f"Error generating image for character '{character.title}': {str(e)}")
             messages.error(self.request, f"Failed to generate image: {str(e)}")  
             return render(self.request, self.template_name, self.get_context_data(form=form))
 
@@ -173,12 +178,15 @@ class CharacterUpdateView(LoginRequiredMixin, UpdateView):
             if image_url:
                 character.image_url = image_url  
                 character.save() 
-                messages.success(self.request, "Character updated successfully!") 
+                messages.success(self.request, "Character updated successfully!")
+                logger.info(f"Character '{character.title}' updated successfully by {self.request.user.username}") 
                 return self.render_to_response(self.get_context_data(form=form, new_character=character))
             else:
-                messages.error(self.request, "Image generation failed. Try again.") 
+                messages.error(self.request, "Image generation failed. Try again.")
+                logger.warning(f"Image generation failed for character '{character.title}' by {self.request.user.username}")  
                 return render(self.request, self.template_name, self.get_context_data(form=form))
         except Exception as e:
+            logger.error(f"Error updating character '{character.title}': {str(e)}")
             messages.error(self.request, f"Failed to generate image: {str(e)}")  
             return render(self.request, self.template_name, self.get_context_data(form=form))
 
@@ -191,3 +199,11 @@ class CharacterDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_queryset(self):
         return Character.objects.filter(user=self.request.user)
+    
+    def delete(self, request, *args, **kwargs):
+        character = self.get_object()
+        logger.warning(f"User {request.user.username} is deleting character: {character.title}")
+        response = super().delete(request, *args, **kwargs)
+        messages.success(request, "Character deleted successfully.")
+        logger.info(f"Character '{character.title}' deleted successfully by {request.user.username}")
+        return response
