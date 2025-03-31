@@ -25,7 +25,7 @@ In addition to the core application features, the project also leverages Docker 
 - Dependency Management: Poetry
 
 ## Project Structure
-´´´
+```bash
 ├── characters/                                 # Django app for character management
 │   ├── migrations/                             # Database migrations
 │   ├── templates/                              # HTML templates for rendering views
@@ -68,8 +68,7 @@ In addition to the core application features, the project also leverages Docker 
 ├── pytest.ini                                  # Pytest configuration for test discovery and execution
 ├── manage.py                                   # Django management commands entry point
 └── README.md                                   # Project documentation with setup, usage, and deployment instructions
-´´´
-
+```
 
 ## Features
 
