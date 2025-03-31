@@ -1,254 +1,286 @@
-- superuser: dali/admin@123
-- user: johncenas/aluno123
-- user: mariamu/eticalgarve123
-- poetry add python-dotenv
-- poetry add openai
+
+# Dali - Character Management and AI Image Generation
+
+This project is a web application built with the Django framework, designed to allow users to create and manage fictional characters. Users can create, edit, view, and delete characters while also generating images based on their character descriptions. The application integrates OpenAI's image generation API (specifically the DALL·E 3 model) to create AI-generated images based on the user's selected attributes.
+
+In addition to the core application features, the project also leverages Docker Compose for containerization, PostgreSQL as the database solution, a CLI powered by Typer for ease of management, and logging and testing utilities to ensure smooth operation and maintainability.
+
+## Key Features
+- User Authentication: Secure signup, login, and logout
+- Character Management: Create, edit, view, and delete characters
+- AI Image Generation: Automatic portrait generation from character descriptions
+- Containerized Architecture: Docker Compose for easy deployment
+- Reliable Database: PostgreSQL for data storage
+- Comprehensive Testing: Pytest for unit and integration tests
+- CLI Integration: Typer-powered command line interface
+- Detailed Logging: Event tracking and error handling
+
+## Technology Stack
+- Backend: Django
+- Database: PostgreSQL
+- AI Integration: OpenAI DALL·E 3 API
+- Containerization: Docker + Docker Compose
+- CLI: Typer
+- Testing: Pytest
+- Dependency Management: Poetry
+
+## Project Structure
+
+├── characters/                                 # Django app for character management
+│   ├── migrations/                             # Database migrations
+│   ├── templates/                              # HTML templates for rendering views
+│   │   ├── characters/                         # Templates related to character management
+│   │   │   ├── character_confirm_delete.html   # Confirmation page for deleting a character
+│   │   │   ├── character_list.html             # Page listing all characters
+│   │   │   ├── character_update.html           # Form for updating a character
+│   │   │   ├── create_character.html           # Form for creating a character
+│   │   │   ├── index.html                      # Homepage for characters
+│   │   ├── registration/                       # Authentication-related templates
+│   │   │   ├── login.html                      # User login page
+│   │   │   ├── signup.html                     # User signup page
+│   │   ├── base.html                           # Base template for consistent styling across pages
+│   ├── tests/                                  # Unit tests for the application
+│   ├── admin.py                                # Django Admin configuration
+│   ├── apps.py                                 # Application configuration
+│   ├── character.json                          # Sample data for testing/populating database
+│   ├── forms.py                                # Form handling logic
+│   ├── image_service.py                        # OpenAI image generation service
+│   ├── models.py                               # Database models defining characters
+│   ├── tests.py                                # Unit tests for character-related features
+│   ├── urls.py                                 # URL routing for character-related views
+│   ├── views.py                                # Application views handling requests
+│ 
+├── dali/                                       # Django project settings and configurations
+│   ├── settings.py                             # Django settings (database, middleware, authentication, etc.)
+│   ├── urls.py                                 # Project-wide URL configuration
+│   ├── wsgi.py                                 # WSGI application entry point (for production servers)
+│   ├── asgi.py                                 # ASGI application entry point (for async support)
+│ 
+├── images/                                     # Directory to store generated character images
+├── static/                                     # Static files (CSS, JS, images)
+├── cli_typer.py                                # CLI commands using Typer for managing the project
+├── docker-compose.yml                          # Docker Compose configuration for services (web, db, adminer)
+├── Dockerfile                                  # Docker setup for containerized deployment
+├── Makefile                                    # Helper commands for managing the project easily
+├── LICENSE                                     # Licensing information for the project
+├── poetry.lock                                 # Poetry dependencies lockfile (ensures consistency)
+├── pyproject.toml                              # Poetry dependency manager configuration
+├── pytest.ini                                  # Pytest configuration for test discovery and execution
+├── manage.py                                   # Django management commands entry point
+└── README.md                                   # Project documentation with setup, usage, and deployment instructions
 
 
-# CLI with Typer
-
-## List commands
-docker compose run --rm web poetry run python cli_typer.py --help
-
-## List characters
-docker compose run --rm -e DJANGO_SETTINGS_MODULE=dali.settings web poetry run python cli_typer.py list-characters
-
-## Delete character
-docker compose run --rm -e DJANGO_SETTINGS_MODULE=dali.settings web poetry run python cli_typer.py delete-character 1
-
-## Show stats
-docker compose run --rm -e DJANGO_SETTINGS_MODULE=dali.settings web poetry run python cli_typer.py character-stats
-
-## Run development server
-docker compose run --rm -e DJANGO_SETTINGS_MODULE=dali.settings web poetry run python cli_typer.py runserver
-
-
-
-
-
-
-
-# AI Image Generator
-
-## Project Overview
-
-The **AI Image Generator** is a Django-based web application that generates and manages characters using machine learning models and AI services. This project is designed to provide an interface for creating, listing, deleting, and displaying statistics of generated characters. It includes a command-line interface (CLI) for various operations and is Dockerized for easy deployment.
-
-## Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Setup](#setup)
-  - [Environment Setup](#environment-setup)
-  - [Docker Setup](#docker-setup)
-- [Usage](#usage)
-  - [Run Django Development Server](#run-django-development-server)
-  - [CLI Commands](#cli-commands)
-- [Testing](#testing)
-- [Makefile Commands](#makefile-commands)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
-- **Character Generation**: Create AI-generated characters.
-- **Character Management**: List and delete generated characters.
-- **Statistics**: View statistics about the generated characters.
-- **Django Admin**: Create superusers and manage the application through Django's admin interface.
-- **Docker Support**: Run the application and all dependencies in Docker containers for easier development and deployment.
-- **CLI Interface**: Perform various operations through a command-line interface.
+### User Authentication
+- Users can sign up, log in, and log out securely.
 
-## Installation
+### Character Management
+- Users can create characters by filling out a form with specific attributes such as age, gender, ethnicity, hair style, clothing, expression, and more.
+- Characters can be updated or deleted as needed.
 
-### Prerequisites
+### AI-Powered Image Generation
+- When a character is created or updated, the application dynamically constructs a text-based prompt describing the character’s attributes.
+- This prompt is sent to OpenAI's DALL·E 3 model to generate an AI-rendered portrait of the character.
+- The generated image is then linked to the character profile.
 
-- **Docker**: Make sure Docker and Docker Compose are installed on your machine. You can install them from the official Docker documentation:
-  - [Install Docker](https://docs.docker.com/get-docker/)
-  - [Install Docker Compose](https://docs.docker.com/compose/install/)
+### Logging and Error Handling
+- The application logs key events such as character creation, updates, and deletions.
+- If the image generation fails, users receive an error message, and the failure is logged for debugging purposes.
 
-- **Poetry**: Poetry is used for dependency management. Install it by following the instructions here:
-  - [Poetry Installation](https://python-poetry.org/docs/#installation)
+### Docker Compose:
+- The project is containerized using Docker Compose, allowing for easy setup and management of all services, including the web application, PostgreSQL database, and admin interface.
+- The web service runs the Django app, while the db service handles the PostgreSQL database. The adminer service provides a web-based database management interface.
 
-### Steps
+### PostgreSQL Database:
+- PostgreSQL is used to store all the user and character data. It’s configured to handle user data and image generation attributes securely and efficiently.
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/your-username/ai-image-generator.git
-   cd ai-image-generator
-   ```
+### Logging:
+- The application features comprehensive logging to capture important events and errors throughout its lifecycle, ensuring maintainability and easy debugging.
 
-2. **Install Dependencies**:
-   - Install Python dependencies using Poetry:
-     ```bash
-     poetry install
-     ```
+### Testing with Pytest:
+- The project uses Pytest for testing. Unit and integration tests ensure that the application behaves as expected, from the user authentication system to the image generation process.
 
-3. **Set up the Environment Variables**:
-   - Create a `.env` file and set your `DJANGO_SETTINGS_MODULE` to point to the correct settings file:
-     ```bash
-     DJANGO_SETTINGS_MODULE=dali.settings
-     ```
+This project offers an interactive way to visualize characters through AI-generated art, making it especially useful for writers, game developers, and creative artists who want to bring their ideas to life. The combination of Docker, PostgreSQL, Typer, logging, and testing ensures that the project is robust, scalable, and easy to manage.
 
-4. **Configure Docker**:
-   - The project uses Docker Compose to handle the database and other services. The `docker-compose.yml` file is included.
-   - Build and start the services:
-     ```bash
-     docker-compose up --build
-     ```
 
-5. **Database Migration**:
-   - After starting the Docker containers, you need to apply migrations:
-     ```bash
-     docker-compose run --rm web poetry run python manage.py migrate
-     ```
 
-6. **Create a Superuser**:
-   - Once the database is set up, create a superuser to access the Django admin:
-     ```bash
-     docker-compose run --rm web poetry run python manage.py createsuperuser
-     ```
 
-## Setup
+## Installation & Setup
 
-### Environment Setup
-Set up the required environment variable `DJANGO_SETTINGS_MODULE`. You can set it either in a `.env` file or in your shell configuration.
+### Requirements
 
-In the `.env` file:
-   ```bash
-   DJANGO_SETTINGS_MODULE=dali.settings
-   ```
+Before you begin, ensure you have the following installed:
+- [Docker](https://www.docker.com/get-started) 
+- [Poetry](https://python-poetry.org/docs/#installation)
+- [Python 3.12](https://www.python.org/downloads/)
 
-To set this in your shell configuration, you can add the following line to your `.bashrc` or `.zshrc`:
-   ```bash
-   export DJANGO_SETTINGS_MODULE=dali.settings
-   ```
 
-### Docker Setup
-This project uses Docker Compose to manage services such as the database, application, and web server.
+### Clone the Repository
+```bash
+git clone https://github.com/luis-barbara/backend-i/tree/main/AI-IMAGE-GENERATOR.git
+```
 
-- **Docker Compose**: Ensure Docker and Docker Compose are installed and properly configured on your machine.
+### Set Up Environment Variables
+Create a `.env` file in the root directory and configure it with the necessary settings:
+```bash
+POSTGRES_DB=your_database
+POSTGRES_USERNAME=your_username
+POSTGRES_PASSWORD=your_password
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+OPENAI_API_KEY=your_openai_key
+DJANGO_DEBUG=True
+```
 
-- **Build the Docker Containers**:
-   ```bash
-   docker-compose build
-   ```
+Make sure to replace `yourpassword` and `your_openai_api_key` with your actual PostgreSQL password and OpenAI API key.
 
-- **Start the Docker Containers**:
-   ```bash
-   docker-compose up -d
-   ```
+### Install Dependencies
 
-- **Run Migrations in Docker**:
-   ```bash
-   docker-compose run --rm web poetry run python manage.py migrate
-   ```
+You can either run the app using Docker or install the dependencies directly on your machine.
+
+#### Docker Setup
+
+If you prefer using Docker, you can skip the dependency installation and directly run the app using Docker Compose (recommended for a consistent environment).
+
+```bash
+make compose.bootstrap
+```
+
+This command will:
+- Build the Docker images.
+- Start the Docker containers.
+- Apply database migrations.
+- Create a superuser for accessing the Django Admin.
+
+#### Local Setup
+
+If you want to run the application locally without Docker, first install the dependencies using Poetry:
+
+```bash
+poetry install
+```
+
+Then run the Django development server:
+
+```bash
+poetry run python manage.py runserver
+```
 
 ## Usage
 
-### Run Django Development Server
-To run the Django development server inside a Docker container, use the following command:
-   ```bash
-   docker-compose run --rm web poetry run python manage.py runserver
-   ```
+Once the application is running, you can:
 
-### CLI Commands
-You can use the CLI for various operations. The available commands are:
+### 1. Access the Application
 
-- **List characters**:
-   ```bash
-   docker-compose run --rm -e DJANGO_SETTINGS_MODULE=dali.settings web poetry run python cli_typer.py list-characters
-   ```
+Open your browser and navigate to:
 
-- **Delete a character**:
-   ```bash
-   docker-compose run --rm -e DJANGO_SETTINGS_MODULE=dali.settings web poetry run python cli_typer.py delete-character <character_id>
-   ```
+```
+http://localhost:8000
+```
 
-- **Show character stats**:
-   ```bash
-   docker-compose run --rm -e DJANGO_SETTINGS_MODULE=dali.settings web poetry run python cli_typer.py character-stats
-   ```
+You will be prompted to sign up or log in. After authentication, you can create and manage your characters.
 
-- **Run the development server**:
-   ```bash
-   docker-compose run --rm web poetry run python cli_typer.py runserver
-   ```
+### 2. Manage Characters
 
-- **Show CLI Help**:
-   ```bash
-   docker-compose run --rm -e DJANGO_SETTINGS_MODULE=dali.settings web poetry run python cli_typer.py --help
-   ```
+You can create, edit, and delete characters through the web interface. Each character has the following attributes:
 
-## Testing
+- Name
+- Age
+- Gender
+- Ethnicity
+- Hair Style
+- Clothing
+- Expression
+- ...
 
-- To run tests locally, you can use the following command:
-   ```bash
-   poetry run pytest -vvv --no-header
-   ```
+### 3. AI Image Generation
 
-- To run tests inside Docker:
-   ```bash
-   docker-compose run --rm -e DJANGO_SETTINGS_MODULE=dali.settings web poetry run pytest -vvv --no-header
-   ```
+When creating or updating a character, the app will send a description of the character’s attributes to OpenAI's DALL·E 3 model to generate an AI-generated image. The image will be associated with the character.
 
-## Makefile Commands
+### 4. CLI Commands
 
-The Makefile contains useful commands for managing the application. Here are some of the common ones:
+You can also use the Typer-based CLI to manage your characters and view statistics. Some example commands:
 
-- **Start the Django server**:
-   ```bash
-   make start
-   ```
+- **List all characters**:  
+  ```bash
+  make cli.list-characters
+  ```
 
-- **Run migrations**:
-   ```bash
-   make migrate
-   ```
+- **Delete a character** (by `character_id`):  
+  ```bash
+  make cli.delete-character character_id=1
+  ```
 
-- **Create migrations**:
-   ```bash
-   make migrations
-   ```
+- **Show character statistics**:  
+  ```bash
+  make cli.character-stats
+  ```
 
-- **Create a superuser**:
-   ```bash
-   make createsuperuser
-   ```
+- **Start the development server**:
+  ```bash
+  make cli.runserver
+  ```
 
-- **Run tests**:
-   ```bash
-   make tests
-   ```
+### 5. Run Tests
 
-- **Run Docker Compose tests**:
-   ```bash
-   make compose.tests
-   ```
+To run the tests locally with Poetry:
 
-- **Start Docker Compose services**:
-   ```bash
-   make compose.start
-   ```
+```bash
+make tests
+```
 
-- **Run Docker Compose migrations**:
-   ```bash
-   make compose.migrate
-   ```
+Or, to run the tests using Docker Compose:
 
-- **Create Docker Compose superuser**:
-   ```bash
-   make compose.superuser
-   ```
+```bash
+make compose.tests
+```
 
-- **Bootstrap Docker services**:
-   ```bash
-   make compose.bootstrap
-   ```
+## Docker Compose Commands
+
+- **Start the application** (builds and runs the containers):
+
+  ```bash
+  make compose.start
+  ```
+
+- **Run migrations** with Docker Compose:
+
+  ```bash
+  make compose.migrate
+  ```
+
+- **Create a superuser** with Docker Compose:
+
+  ```bash
+  make compose.superuser
+  ```
+
+- **Bootstrap the application** (start, migrate, and create superuser):
+
+  ```bash
+  make compose.bootstrap
+  ```
+
+
+### Django Settings
+
+The settings for the project are defined in `dali/settings.py`. You can configure the database, static files, and other settings based on your environment.
+
+
+### Logs and Error Handling
+
+The application logs important actions such as character creation and updates. Errors related to image generation (e.g., API failures) are also logged for debugging purposes.
 
 ## Contributing
 
-If you'd like to contribute to this project, feel free to fork the repository, make your changes, and submit a pull request. Please ensure that your code adheres to the project's code style and includes relevant tests.
+If you'd like to contribute to this project, feel free to fork the repository, create a branch, and submit a pull request. Please ensure that you write tests for new features and follow the coding standards.
+
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+
